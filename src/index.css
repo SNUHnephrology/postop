@@ -1,0 +1,63 @@
+html {
+  font-size: 16px;
+}
+
+@media (max-width: 768px){
+  html {font-size: 12px;}
+}
+
+@media (max-width: 600px){
+  html {font-size: 10px;}
+}
+
+body {
+  margin: 0;
+  font-family: 'NeoM';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: "NeoB";
+  src: url("./assets/font/AppleSDGothicNeoB.ttf");
+}
+
+@font-face {
+  font-family: "NeoEB";
+  src: url("./assets/font/AppleSDGothicNeoEB.ttf");
+}
+
+@font-face {
+  font-family: "NeoH";
+  src: url("./assets/font/AppleSDGothicNeoH.ttf");
+}
+
+@font-face {
+  font-family: "NeoL";
+  src: url("./assets/font/AppleSDGothicNeoL.ttf");
+}
+
+@font-face {
+  font-family: "NeoM";
+  src: url("./assets/font/AppleSDGothicNeoM.ttf");
+}
+
+@font-face {
+  font-family: "NeoR";
+  src: url("./assets/font/AppleSDGothicNeoR.ttf");
+}
+
+@font-face {
+  font-family: "NeoSB";
+  src: url("./assets/font/AppleSDGothicNeoSB.ttf");
+}
+
+@font-face {
+  font-family: "NeoT";
+  src: url("./assets/font/AppleSDGothicNeoT.ttf");
+}
+
+@font-face {
+  font-family: "NeoUL";
+  src: url("./assets/font/AppleSDGothicNeoUL.ttf");
+}
