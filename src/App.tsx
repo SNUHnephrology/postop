@@ -1091,38 +1091,36 @@ function App() {
     let baseline_hzd_three_year;
 
     let one_year_coef = {
-      age: 0.0196293,
-      sex: -0.0568409,
-      dm: -0.0338757,
-      rasb: -0.0987812,
-      surgdur: 0.0006098,
-      emerg: 0.5448388,
-      egfr8: 0.0445636,
-      egfr15: 0.0723537,
-      egfr22: 0.1554711,
-      hypoalbu: 0.6243594,
-      anem: 0.7719842,
-      hypona: 0.6230601,
-      ualb: 0.4982252,
-      akistage: 0.4467841,
-      malhis: 1.0364368
+      age: 0.0196126,
+      sex: -0.054664,
+      dm: -0.0349731,
+      rasb: -0.0981915,
+      surgdur: 0.0006001,
+      emerg: 0.546191,
+      egfr8: 0.0402695,
+      egfr15: 0.0715869,
+      egfr22: 0.1395399,
+      hypoalbu: 0.6227342,
+      anem: 0.7720146,
+      hypona: 0.6238469,
+      ualb: 0.4993756,
+      malhis: 1.0364631
     }
     let three_year_coef = {
-      age: 0.0194704,
-      sex: -0.1176325,
-      dm: 0.0319976,
-      rasb: -0.0438577,
-      surgdur: 0.0011574,
-      emerg: 0.3831032,
-      egfr8: 0.1077451,
-      egfr15: 0.1070112,
-      egfr22: 0.1894516,
-      hypoalbu: 0.4847653,
-      anem: 0.6314451,
-      hypona: 0.4797904,
-      ualb: 0.4016427,
-      akistage: 0.3002817,
-      malhis: 1.1821093
+      age: 0.0194696,
+      sex: -0.1168888,
+      dm: 0.0325275,
+      rasb: -0.0427398,
+      surgdur: 0.0011717,
+      emerg: 0.3848941,
+      egfr8: 0.1071924,
+      egfr15: 0.1138894,
+      egfr22: 0.1885805,
+      hypoalbu: 0.4847846,
+      anem: 0.6315236,
+      hypona: 0.4831959,
+      ualb: 0.4029291,
+      malhis: 1.1817547
     }
     let one_year_egfr_coef = one_year_coef.egfr8;
     let three_year_egfr_coef = three_year_coef.egfr8;
@@ -1138,32 +1136,52 @@ function App() {
       one_year_egfr_coef = one_year_coef.egfr22;
       three_year_egfr_coef = three_year_coef.egfr22;
     }
+    else {
+      one_year_egfr_coef = 0;
+      three_year_egfr_coef = 0;
+    }
+
     let aki = usePostOPScr ? calculatedAKIStage: akiStageValue;
     let age_mean = 57.19821;
     let op_dur_mean = 185.306;
-    let aki_stage_mean = 0.08194;
+    // let aki_stage_mean = 0.08194;
     let op_dur_final = (p_data.surgicalDuration*60 - op_dur_mean);
     let age_final = (p_data.age - age_mean);
-    console.log(aki);
-    let aki_stage_final = (Number(aki) - aki_stage_mean);
+    let one_year_akistage_coef = 0;
+    let three_year_akistage_coef = 0;
+    if(Number(aki) === 1){
+      one_year_akistage_coef = 0.4728895;
+      three_year_akistage_coef = 0.2954947;
+    }
+    else if(Number(aki) === 2){
+      one_year_akistage_coef = 0.7688407;
+      three_year_akistage_coef = 0.4481515;
+    }
+    else if(Number(aki) === 3){
+      one_year_akistage_coef = 1.4154315;
+      three_year_akistage_coef = 1.1222658;
+    }
+
+    // let aki_stage_final = (Number(aki) - aki_stage_mean);
+    let aki_stage_final = Number(aki);
+
+    
     one_year_mort_lin = age_final*one_year_coef.age + Number(p_data.gender)*one_year_coef.sex + Number(p_data.diabetesMellitus)*one_year_coef.dm + 
     Number(p_data.blockadeUsage)*one_year_coef.rasb + op_dur_final*one_year_coef.surgdur + Number(p_data.emergencyOP)*one_year_coef.emerg + 
     one_year_egfr_coef + Number(p_data.hypoalbuminemia)*one_year_coef.hypoalbu + Number(p_data.anemia)*one_year_coef.anem + Number(p_data.hyponatremia)*one_year_coef.hypona + Number(p_data.albuminuria)*one_year_coef.ualb + 
-    aki_stage_final*one_year_coef.akistage + Number(malhistory)*one_year_coef.malhis;
+    aki_stage_final*one_year_akistage_coef + Number(malhistory)*one_year_coef.malhis;
     
     three_year_mort_lin = age_final*three_year_coef.age + Number(p_data.gender)*three_year_coef.sex + Number(p_data.diabetesMellitus)*three_year_coef.dm + 
     Number(p_data.blockadeUsage)*three_year_coef.rasb + op_dur_final*three_year_coef.surgdur + Number(p_data.emergencyOP)*three_year_coef.emerg + 
     three_year_egfr_coef + Number(p_data.hypoalbuminemia)*three_year_coef.hypoalbu + Number(p_data.anemia)*three_year_coef.anem + Number(p_data.hyponatremia)*three_year_coef.hypona + Number(p_data.albuminuria)*three_year_coef.ualb + 
-    aki_stage_final*three_year_coef.akistage + Number(malhistory)*three_year_coef.malhis;
-    baseline_hzd_one_year = 0.015149666656008;
+    aki_stage_final*three_year_akistage_coef + Number(malhistory)*three_year_coef.malhis;
+    baseline_hzd_one_year = 0.01457754;
     baseline_hzd_three_year = 0.0440209105958078;
 
     console.log(one_year_mort_lin);
     console.log(three_year_mort_lin);
     one_year_mort = (1 - (Math.exp(-baseline_hzd_one_year)**Math.exp(one_year_mort_lin)))*100;
     three_year_mort = (1 - (Math.exp(-baseline_hzd_three_year)**Math.exp(three_year_mort_lin)))*100;
-    console.log(one_year_mort);
-    console.log(three_year_mort);
     setOneyearMortalityProbabilityAdditional(one_year_mort);
     setThreeyearMortalityProbabilityAdditional(three_year_mort);
   }

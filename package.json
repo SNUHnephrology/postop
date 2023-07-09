@@ -1,5 +1,5 @@
 {
-  "homepage": " https://snuhnephrology.github.io/",
+  "homepage": " https://snuhnephrology.github.io/postop",
   "name": "calculator",
   "version": "0.1.0",
   "private": true,
@@ -13,7 +13,6 @@
     "@types/react": "^17.0.41",
     "@types/react-dom": "^17.0.14",
     "bootstrap": "^5.1.3",
-    "gh-pages": "^3.2.3",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-bootstrap": "^2.2.1",
@@ -47,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "3.2.3"
   }
 }
